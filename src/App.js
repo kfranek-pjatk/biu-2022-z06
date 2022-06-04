@@ -5,7 +5,16 @@ function GitHubUser({ login }) {
     return (
         <Fetch
             uri={`https://api.github.com/users/${login}`}
-            renderSuccess={UserDetails}
+            renderError={error => {
+                // handle error
+                return <p>Something went wrong... {error.message}</p>;
+            }}
+            renderSuccess={({ data }) => (
+                <>
+                    <h1>Todo: Render UI for data</h1>
+                    <pre>{JSON.stringify(data, null, 2)}</pre>
+                </>
+            )}
         />
     );
 }
