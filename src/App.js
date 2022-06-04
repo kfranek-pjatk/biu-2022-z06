@@ -1,20 +1,33 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 
-function GitHubUser({login}) {
-    const [data, setData] = useState();
+export const useIterator = (
+    items = [],
+    initialIndex = 0
+) => {
+    const [i, setIndex] = useState(initialIndex);
+    const prev = () => {
+        if (i === 0) return setIndex(items.length - 1);
+        setIndex(i - 1);
+    };
+    const next = () => {
+        if (i === items.length - 1) return setIndex(0);
+        setIndex(i + 1);
+    };
+    return [items[i], prev, next];
+};
 
-    useEffect(() => {
-        if (!login) return;
-        fetch(`https://api.github.com/users/${login}`)
-            .then(response => response.json())
-            .then(setData)
-            .catch(console.error);
-    }, [login]);
-
-    if (data)
-        return <pre>{JSON.stringify(data, null, 2)}</pre>;
-    return null;
-}
 export default function App() {
-    return <GitHubUser login="mmiotk"/>;
+    const [letter, previous, next] = useIterator([
+        "a",
+        "b",
+        "c"
+    ]);
+    console.log(letter);
+    console.log(previous);
+    console.log(next);
+    return (
+        <>
+            <h1>Welcome to app</h1>
+        </>
+    );
 }
