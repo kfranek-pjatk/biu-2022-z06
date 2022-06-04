@@ -1,3 +1,4 @@
+// App.js
 import React from "react";
 const tahoe_peaks = [
         { name: "Freel Peak", elevation: 10891 },
@@ -6,9 +7,16 @@ const tahoe_peaks = [
         { name: "Mt. Tallac", elevation: 9735 }
     ];
 
-function List({ data = [], renderEmpty }) {
-    if (!data.length) return renderEmpty;
-    return <p>{data.length} items</p>;
+function List({ data = [], renderItem, renderEmpty }) {
+    return !data.length ? (
+        renderEmpty
+    ) : (
+        <ul>
+            {data.map((item, i) => (
+                <li key={i}>{renderItem(item)}</li>
+            ))}
+        </ul>
+    );
 }
 
 export default function App() {
